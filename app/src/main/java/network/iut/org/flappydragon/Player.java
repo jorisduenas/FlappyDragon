@@ -3,7 +3,9 @@ package network.iut.org.flappydragon;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 
 public class Player {
     /** Static bitmap to reduce memory usage. */
@@ -18,8 +20,12 @@ public class Player {
     private float speedX;
     private float speedY;
     private GameView view;
+    private Context context;
 
     public Player(Context context, GameView view) {
+
+        this.context = context;
+
         int height = context.getResources().getDisplayMetrics().heightPixels;
         int width = context.getResources().getDisplayMetrics().widthPixels;
 
@@ -31,7 +37,7 @@ public class Player {
         this.width = this.bitmap.getWidth();
         this.height = this.bitmap.getHeight();
         this.frameTime = 1;		// the frame will change every 3 runs
-        this.y = context.getResources().getDisplayMetrics().heightPixels / 2;	// Startposition in the middle of the screen
+        this.y = context.getResources().getDisplayMetrics().heightPixels - 300;	// Startposition in the middle of the screen
 
         this.view = view;
         this.x = this.width / 6;
@@ -54,14 +60,21 @@ public class Player {
     public void move() {
         changeToNextFrame();
 
+        this.speedX = 30;
         if(speedY < 0){
             // The character is moving up
             Log.i("Move", "Moving up");
             speedY = speedY * 2 / 3 + getSpeedTimeDecrease() / 2;
         }else{
             // the character is moving down
-            Log.i("Move", "Moving down");
-            this.speedY += getSpeedTimeDecrease();
+            if(this.y < context.getResources().getDisplayMetrics().heightPixels - 200){
+                this.speedY += getSpeedTimeDecrease();
+                Log.i("Move", "Moving down");
+            }
+            else{
+                this.speedY = 0;
+                this.speedX = 0;
+            }
         }
         if(this.speedY > getMaxSpeed()){
             // speed limit
