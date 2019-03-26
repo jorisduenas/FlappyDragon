@@ -30,7 +30,7 @@ public class Player {
         this.bitmap = globalBitmap;
         this.width = this.bitmap.getWidth();
         this.height = this.bitmap.getHeight();
-        this.frameTime = 3;		// the frame will change every 3 runs
+        this.frameTime = 1;		// the frame will change every 3 runs
         this.y = context.getResources().getDisplayMetrics().heightPixels / 2;	// Startposition in the middle of the screen
 
         this.view = view;
