@@ -127,7 +127,8 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void drawCanvas(Canvas canvas) {
-        background.draw(canvas);
+
+        background.draw(canvas, 20);
         player.draw(canvas);
 
         if (pizzas != null) {

@@ -6,6 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 public class Background {
+    private int pos4 = 0;
+    private int pos3 = 0;
+    private int pos2 = 0;
     private int height;
     private int width;
     private Bitmap background1;
@@ -28,12 +31,38 @@ public class Background {
         BoutonTire = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.pizza, width, height);
     }
 
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, Integer speed) {
+        this.pos4 += speed;
+
+        if (this.pos4 >= this.width){
+            this.pos4 = 0;
+        }
+        this.pos3 += speed-15;
+
+        if (this.pos3 >= this.width){
+            this.pos3 = 0;
+        }
+        this.pos2 += speed-17;
+
+        if (this.pos2 >= this.width){
+            this.pos2 = 0;
+        }
         canvas.drawBitmap(background1, new Rect(0, 0, background1.getWidth(), background1.getHeight()), new Rect(0, 0, width, height), null);
-        canvas.drawBitmap(background2, new Rect(0, 0, background1.getWidth(), background1.getHeight()), new Rect(0, 0, width, height), null);
-        canvas.drawBitmap(background3, new Rect(0, 0, background1.getWidth(), background1.getHeight()), new Rect(0, 0, width, height), null);
-        canvas.drawBitmap(background4, new Rect(0, 0, background1.getWidth(), background1.getHeight()), new Rect(0, 0, width, height), null);
-        canvas.drawBitmap(background5, new Rect(0, 0, background1.getWidth(), background1.getHeight()), new Rect(0, 0, width, height), null);
+
+        canvas.drawBitmap(background2, new Rect(0, 0, background2.getWidth(), background2.getHeight()), new Rect(0 - pos2, 0, background2.getWidth()-pos2, height), null);
+        canvas.drawBitmap(background2, new Rect(0, 0, background2.getWidth(), background2 .getHeight()), new Rect(0 + background2.getWidth() - pos2, 0, background2.getWidth() * 2 - pos2 , height), null);
+
+        canvas.drawBitmap(background3, new Rect(0, 0, background3.getWidth(), background3.getHeight()), new Rect(0 - pos3, 0, background3.getWidth()-pos3, height), null);
+        canvas.drawBitmap(background3, new Rect(0, 0, background3.getWidth(), background3 .getHeight()), new Rect(0 + background3.getWidth() - pos3, 0, background3.getWidth() * 2 - pos3 , height), null);
+
+
+        canvas.drawBitmap(background4, new Rect(0, 0, background4.getWidth(), background4.getHeight()), new Rect(0 - pos4, 0, background4.getWidth()-pos4, height), null);
+        canvas.drawBitmap(background4, new Rect(0, 0, background4.getWidth(), background4 .getHeight()), new Rect(0 + background4.getWidth() - pos4, 0, background4.getWidth() * 2 - pos4 , height), null);
+
+
+        canvas.drawBitmap(background5, new Rect(0, 0, background5.getWidth(), background5.getHeight()), new Rect(0 - pos4, 0, background5.getWidth() - pos4, height), null);
+        canvas.drawBitmap(background5, new Rect(0, 0, background5.getWidth(), background5.getHeight()), new Rect(0 + background5.getWidth() - pos4, 0, background5.getWidth() * 2 - pos4 , height), null);
+
         canvas.drawBitmap(pause, new Rect(0, 0, pause.getWidth(), pause.getHeight()), new Rect(1750, 50, 1850, 150), null);
         canvas.drawBitmap(BoutonTire, new Rect(0, 0, BoutonTire.getWidth(), BoutonTire.getHeight()), new Rect(1750, 850, 1850, 950), null);
     }

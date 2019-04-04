@@ -70,7 +70,7 @@ public class Player {
             speedY = speedY * 2 / 3 + getSpeedTimeDecrease() / 2;
         }else{
             // the character is moving down
-            if(this.y < context.getResources().getDisplayMetrics().heightPixels - 200){
+            if(this.y < context.getResources().getDisplayMetrics().heightPixels - 300){
                 this.speedY += getSpeedTimeDecrease();
                 Log.i("Move", "Moving down");
             }
