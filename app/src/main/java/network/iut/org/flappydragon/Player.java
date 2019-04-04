@@ -6,12 +6,14 @@ import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.SurfaceHolder;
 
 public class Player {
     /** Static bitmap to reduce memory usage. */
     public static Bitmap globalBitmap;
     private final Bitmap bitmap;
     private final byte frameTime;
+    private SurfaceHolder holder;
     private int frameTimeCounter;
     private final int width;
     private final int height;
@@ -45,6 +47,7 @@ public class Player {
     }
 
     public void onTap() {
+
         this.speedY = getTabSpeed();
         this.y += getPosTabIncrease();
     }
@@ -60,7 +63,7 @@ public class Player {
     public void move() {
         changeToNextFrame();
 
-        this.speedX = 30;
+        this.speedX = 0;
         if(speedY < 0){
             // The character is moving up
             Log.i("Move", "Moving up");
@@ -107,6 +110,10 @@ public class Player {
 
     private float getSpeedTimeDecrease() {
         return view.getHeight() / 320;
+    }
+
+    public int getY(){
+        return this.y;
     }
 
     private float getMaxSpeed() {
