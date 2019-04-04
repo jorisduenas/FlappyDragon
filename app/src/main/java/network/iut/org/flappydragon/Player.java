@@ -60,14 +60,13 @@ public class Player {
     public void move() {
         changeToNextFrame();
 
-        this.speedX = 30;
         if(speedY < 0){
             // The character is moving up
             Log.i("Move", "Moving up");
             speedY = speedY * 2 / 3 + getSpeedTimeDecrease() / 2;
         }else{
             // the character is moving down
-            if(this.y < context.getResources().getDisplayMetrics().heightPixels - 200){
+            if(this.y < context.getResources().getDisplayMetrics().heightPixels - 300){
                 this.speedY += getSpeedTimeDecrease();
                 Log.i("Move", "Moving down");
             }
