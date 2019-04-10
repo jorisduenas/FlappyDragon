@@ -21,12 +21,14 @@ public class GameView extends SurfaceView implements Runnable {
     private Player player;
     private Background background;
     private ArrayList<Pizza> pizzas;
+    private ArrayList<Macron> macrons;
 
     public GameView(Context context) {
         super(context);
         player = new Player(context, this);
         background = new Background(context);
         pizzas = new ArrayList<Pizza>();
+        macrons = new ArrayList<Macron>();
         holder = getHolder();
         new Thread(new Runnable() {
             @Override
@@ -46,11 +48,11 @@ public class GameView extends SurfaceView implements Runnable {
             createPizza();
         }
 
-        if (event.getX() < 1850 & event.getX() > 1750 & event.getY() < 150 & event.getY() > 50) {
+        else if (event.getX() < 1850 & event.getX() > 1750 & event.getY() < 150 & event.getY() > 50) {
             paused = true;
             stopTimer();
         }
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
+        else if(event.getAction() == MotionEvent.ACTION_DOWN){
             if(paused) {
                 resume();
             } else {
@@ -64,6 +66,8 @@ public class GameView extends SurfaceView implements Runnable {
     private void createPizza(){
         Pizza pizza = new Pizza(getContext(), this.player.getY());
         this.pizzas.add(pizza);
+        Macron macron = new Macron(getContext(), this.player.getY());
+        this.macrons.add(macron);
         Log.i("pizzas", pizzas + "");
     }
 
@@ -107,6 +111,11 @@ public class GameView extends SurfaceView implements Runnable {
                 pizza.move();
             }
         }
+        if (macrons != null){
+            for (Macron macron : this.macrons){
+                macron.move();
+            }
+        }
         draw();
     }
 
@@ -134,6 +143,11 @@ public class GameView extends SurfaceView implements Runnable {
         if (pizzas != null) {
             for (Pizza pizza : this.pizzas){
                 pizza.draw(canvas);
+            }
+        }
+        if(macrons != null){
+            for (Macron macron : this.macrons){
+                macron.draw(canvas);
             }
         }
         if (paused) {
