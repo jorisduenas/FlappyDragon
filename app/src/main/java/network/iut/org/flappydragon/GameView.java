@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,11 +20,13 @@ public class GameView extends SurfaceView implements Runnable {
     private TimerTask timerTask;
     private Player player;
     private Background background;
+    private ArrayList<Pizza> pizzas;
 
     public GameView(Context context) {
         super(context);
         player = new Player(context, this);
         background = new Background(context);
+        pizzas = new ArrayList<Pizza>();
         holder = getHolder();
         new Thread(new Runnable() {
             @Override
@@ -36,6 +39,17 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         performClick();
+
+        //Log.i("X", event.getX() + "");
+        //Log.i("Y", event.getY() + "");
+        if (event.getX() < 1850 & event.getX() > 1750 & event.getY() < 950 & event.getY() > 850  & event.getAction() == MotionEvent.ACTION_DOWN) {
+            createPizza();
+        }
+
+        if (event.getX() < 1850 & event.getX() > 1750 & event.getY() < 150 & event.getY() > 50) {
+            paused = true;
+            stopTimer();
+        }
         if(event.getAction() == MotionEvent.ACTION_DOWN){
             if(paused) {
                 resume();
@@ -45,6 +59,12 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
         return true;
+    }
+
+    private void createPizza(){
+        Pizza pizza = new Pizza(getContext(), this.player.getY());
+        this.pizzas.add(pizza);
+        Log.i("pizzas", pizzas + "");
     }
 
     private void resume() {
@@ -82,12 +102,17 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         player.move();
+        if (pizzas != null){
+            for (Pizza pizza : this.pizzas){
+                pizza.move();
+            }
+        }
         draw();
     }
 
     private void draw() {
         while(!holder.getSurface().isValid()){
-			/*wait*/
+            /*wait*/
             try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
         }
         Canvas canvas = holder.lockCanvas();
@@ -102,8 +127,15 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void drawCanvas(Canvas canvas) {
-        background.draw(canvas);
+
+        background.draw(canvas, 20);
         player.draw(canvas);
+
+        if (pizzas != null) {
+            for (Pizza pizza : this.pizzas){
+                pizza.draw(canvas);
+            }
+        }
         if (paused) {
             canvas.drawText("PAUSED", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
         }
