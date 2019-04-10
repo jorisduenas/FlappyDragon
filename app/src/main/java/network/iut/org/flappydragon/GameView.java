@@ -116,7 +116,32 @@ public class GameView extends SurfaceView implements Runnable {
                 macron.move();
             }
         }
+        this.collision();
         draw();
+    }
+    private void collision(){
+        if(this.macrons != null && this.pizzas != null){
+            for (Macron macron : this.macrons){
+                for (Pizza pizza : this.pizzas){
+                    boolean coliX = false;
+                    boolean coliY = false;
+                    int xPizza = pizza.getX();
+                    int xMacron = macron.getX();
+                    int yPizza = pizza.getY();
+                    int yMacron = macron.getY();
+                    boolean xPizzaMoreFar = xPizza >= xMacron;
+                    boolean yPizzaMoreFar = yPizza >= yMacron;
+
+                    coliX = xPizzaMoreFar ? xMacron + macron.getWidth() >= xPizza : xPizza + pizza.getWidth() >= xMacron;
+
+                    coliY = yPizzaMoreFar ? yMacron + macron.getHeight() >= yPizza : yPizza + pizza.getHeight() >= yMacron;
+
+                    if (coliX && coliY) {
+                        //colision
+                    }
+                }
+            }
+        }
     }
 
     private void draw() {

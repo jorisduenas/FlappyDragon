@@ -58,6 +58,15 @@ public class Pizza {
     public int getY() {
         return this.y;
     }
+    public int getX() { return this.x; }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bitmap, x, y , null);
     }
