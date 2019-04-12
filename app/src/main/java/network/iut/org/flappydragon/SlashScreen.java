@@ -9,7 +9,7 @@ import android.view.WindowManager;
 
 public class SlashScreen extends AppCompatActivity {
 
-    private static int TIME = 1500;
+    private static int TIME = 2500;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
