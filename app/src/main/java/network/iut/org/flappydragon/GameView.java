@@ -1,6 +1,7 @@
 package network.iut.org.flappydragon;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
@@ -89,6 +90,10 @@ public class GameView extends SurfaceView implements Runnable {
         startTimer();
     }
 
+    private void restart() {
+
+    }
+
     private void startTimer() {
         Log.i("TIMER", "START TIMER");
         setUpTimerTask();
@@ -129,7 +134,8 @@ public class GameView extends SurfaceView implements Runnable {
                 macron.move();
             }
         }
-        this.collision();
+        this.collisionPizzaMacron();
+        this.collisionDragon();
         i += 1;
         if (i == 10) {
             GameView.this.createMacron(false);
@@ -140,7 +146,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         draw();
     }
-    private void collision(){
+    private void collisionPizzaMacron(){
         ArrayList<Pizza> removePizzas = new ArrayList<>();
         ArrayList<Macron> removeMacrons = new ArrayList<>();
         if(this.macrons != null && this.pizzas != null){
@@ -166,11 +172,31 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
             }
-            for(Macron macronRemove : removeMacrons){
-                macrons.remove(macronRemove);
-            }
-            for(Pizza removePizza : removePizzas){
-                pizzas.remove(removePizza);
+            macrons.removeAll(removeMacrons);
+            pizzas.removeAll(removePizzas);
+        }
+    }
+
+    private void collisionDragon(){
+        ArrayList<Macron> removeMacrons = new ArrayList<>();
+        if(this.macrons != null && this.pizzas != null){
+            for (Macron macron : this.macrons){
+                boolean coliX = false;
+                boolean coliY = false;
+                int xPlayer = player.getX();
+                int xMacron = macron.getX();
+                int yPlayer = player.getY();
+                int yMacron = macron.getY();
+                boolean xPizzaMoreFar = xPlayer >= xMacron;
+                boolean yPizzaMoreFar = yPlayer >= yMacron;
+
+                coliX = xPizzaMoreFar ? xMacron + macron.getWidth() >= xPlayer : xPlayer + player.getWidth() >= xMacron;
+
+                coliY = yPizzaMoreFar ? yMacron + macron.getHeight() >= yPlayer : yPlayer + player.getHeight() >= yMacron;
+
+                if (coliX && coliY) {
+                    restart();
+                }
             }
 
         }

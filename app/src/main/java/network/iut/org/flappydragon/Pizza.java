@@ -27,7 +27,7 @@ public class Pizza {
 
         if(globalBitmap == null) {
             Log.e("TEST", "Height : " + height + ", width : " + width);
-            globalBitmap = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.pizza, Float.valueOf(height / 10f).intValue(), Float.valueOf(width / 10f).intValue());
+            globalBitmap = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.crs, Float.valueOf(height / 10f).intValue(), Float.valueOf(width / 10f).intValue());
         }
         this.bitmap = globalBitmap;
         this.width = this.bitmap.getWidth();

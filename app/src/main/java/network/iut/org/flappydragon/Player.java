@@ -33,11 +33,11 @@ public class Player {
 
         if(globalBitmap == null) {
             Log.e("TEST", "Height : " + height + ", width : " + width);
-            globalBitmap = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.frame1, Float.valueOf(height / 10f).intValue(), Float.valueOf(width / 10f).intValue());
+            globalBitmap = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.macron, Float.valueOf(height / 10f).intValue(), Float.valueOf(width / 10f).intValue());
         }
         this.bitmap = globalBitmap;
-        this.width = this.bitmap.getWidth();
-        this.height = this.bitmap.getHeight();
+        this.width = (int) (this.bitmap.getWidth() + (this.bitmap.getWidth() * 1.5));
+        this.height = (int) (this.bitmap.getHeight() + (this.bitmap.getHeight() * 1.5));
         this.frameTime = 1;		// the frame will change every 3 runs
         this.y = context.getResources().getDisplayMetrics().heightPixels - 300;	// Startposition in the middle of the screen
 
@@ -114,6 +114,18 @@ public class Player {
 
     public int getY(){
         return this.y;
+    }
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     private float getMaxSpeed() {
