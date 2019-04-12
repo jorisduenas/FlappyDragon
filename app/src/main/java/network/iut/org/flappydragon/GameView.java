@@ -3,12 +3,14 @@ package network.iut.org.flappydragon;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,6 +24,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Background background;
     private ArrayList<Pizza> pizzas;
     private ArrayList<Macron> macrons;
+    private int i = 0;
 
     public GameView(Context context) {
         super(context);
@@ -66,13 +69,24 @@ public class GameView extends SurfaceView implements Runnable {
     private void createPizza(){
         Pizza pizza = new Pizza(getContext(), this.player.getY());
         this.pizzas.add(pizza);
-        Macron macron = new Macron(getContext(), this.player.getY());
-        this.macrons.add(macron);
         Log.i("pizzas", pizzas + "");
+    }
+
+    private void createMacron(boolean positif){
+        Random r = new Random();
+        int y = 0;
+        if (positif) {
+            y = this.player.getY() + r.nextInt(300-10);
+        } else {
+            y = this.player.getY() - r.nextInt(300-10);
+        }
+        Macron macron = new Macron(getContext(), y);
+        this.macrons.add(macron);
     }
 
     private void resume() {
         paused = false;
+
         startTimer();
     }
 
@@ -105,6 +119,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     @Override
     public void run() {
+
         player.move();
         if (pizzas != null){
             for (Pizza pizza : this.pizzas){
@@ -116,6 +131,14 @@ public class GameView extends SurfaceView implements Runnable {
                 macron.move();
             }
         }
+        i += 1;
+        if (i == 10) {
+            GameView.this.createMacron(false);
+        } else if (i == 20) {
+            GameView.this.createMacron(true);
+            i = 0;
+        }
+
         draw();
     }
 
@@ -123,7 +146,9 @@ public class GameView extends SurfaceView implements Runnable {
         while(!holder.getSurface().isValid()){
             /*wait*/
             try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
+
         }
+
         Canvas canvas = holder.lockCanvas();
         if (canvas != null) {
             drawCanvas(canvas);
