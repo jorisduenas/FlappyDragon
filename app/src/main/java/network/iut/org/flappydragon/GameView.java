@@ -86,7 +86,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void resume() {
         paused = false;
-
         startTimer();
     }
 
@@ -119,7 +118,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     @Override
     public void run() {
-
         player.move();
         if (pizzas != null){
             for (Pizza pizza : this.pizzas){
@@ -131,6 +129,7 @@ public class GameView extends SurfaceView implements Runnable {
                 macron.move();
             }
         }
+        this.collision();
         i += 1;
         if (i == 10) {
             GameView.this.createMacron(false);
@@ -141,14 +140,47 @@ public class GameView extends SurfaceView implements Runnable {
 
         draw();
     }
+    private void collision(){
+        ArrayList<Pizza> removePizzas = new ArrayList<>();
+        ArrayList<Macron> removeMacrons = new ArrayList<>();
+        if(this.macrons != null && this.pizzas != null){
+            for (Macron macron : this.macrons){
+                for (Pizza pizza : this.pizzas){
+                    boolean coliX = false;
+                    boolean coliY = false;
+                    int xPizza = pizza.getX();
+                    int xMacron = macron.getX();
+                    int yPizza = pizza.getY();
+                    int yMacron = macron.getY();
+                    boolean xPizzaMoreFar = xPizza >= xMacron;
+                    boolean yPizzaMoreFar = yPizza >= yMacron;
+
+                    coliX = xPizzaMoreFar ? xMacron + macron.getWidth() >= xPizza : xPizza + pizza.getWidth() >= xMacron;
+
+                    coliY = yPizzaMoreFar ? yMacron + macron.getHeight() >= yPizza : yPizza + pizza.getHeight() >= yMacron;
+
+                    if (coliX && coliY) {
+                        removeMacrons.add(macron);
+                        removePizzas.add(pizza);
+                        //colision
+                    }
+                }
+            }
+            for(Macron macronRemove : removeMacrons){
+                macrons.remove(macronRemove);
+            }
+            for(Pizza removePizza : removePizzas){
+                pizzas.remove(removePizza);
+            }
+
+        }
+    }
 
     private void draw() {
         while(!holder.getSurface().isValid()){
             /*wait*/
             try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
-
         }
-
         Canvas canvas = holder.lockCanvas();
         if (canvas != null) {
             drawCanvas(canvas);

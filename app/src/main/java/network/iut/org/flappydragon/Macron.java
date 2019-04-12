@@ -35,7 +35,7 @@ public class Macron {
         this.frameTime = 1;		// the frame will change every 3 runs
         this.y = y;
 
-        this.x = this.width * 20;
+        this.x = width;
     }
 
     public void move() {
@@ -58,6 +58,16 @@ public class Macron {
     public int getY() {
         return this.y;
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getX() { return this.x; }
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bitmap, x, y , null);
     }
