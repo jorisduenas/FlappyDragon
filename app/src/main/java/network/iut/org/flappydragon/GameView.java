@@ -120,6 +120,8 @@ public class GameView extends SurfaceView implements Runnable {
         draw();
     }
     private void collision(){
+        ArrayList<Pizza> removePizzas = new ArrayList<>();
+        ArrayList<Macron> removeMacrons = new ArrayList<>();
         if(this.macrons != null && this.pizzas != null){
             for (Macron macron : this.macrons){
                 for (Pizza pizza : this.pizzas){
@@ -137,10 +139,19 @@ public class GameView extends SurfaceView implements Runnable {
                     coliY = yPizzaMoreFar ? yMacron + macron.getHeight() >= yPizza : yPizza + pizza.getHeight() >= yMacron;
 
                     if (coliX && coliY) {
+                        removeMacrons.add(macron);
+                        removePizzas.add(pizza);
                         //colision
                     }
                 }
             }
+            for(Macron macronRemove : removeMacrons){
+                macrons.remove(macronRemove);
+            }
+            for(Pizza removePizza : removePizzas){
+                pizzas.remove(removePizza);
+            }
+
         }
     }
 
