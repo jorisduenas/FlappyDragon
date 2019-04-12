@@ -28,7 +28,7 @@ public class Background {
         background4 = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.layer4, width, height);
         background5 = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.layer5, width, height);
         pause = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.pause, width, height);
-        BoutonTire = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.pizza, width, height);
+        BoutonTire = Util.decodeSampledBitmapFromResource(context.getResources(), R.drawable.crs, width, height);
     }
 
     public void draw(Canvas canvas, Integer speed) {

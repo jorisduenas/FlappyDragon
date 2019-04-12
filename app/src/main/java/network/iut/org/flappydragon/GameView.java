@@ -224,12 +224,12 @@ public class GameView extends SurfaceView implements Runnable {
         player.draw(canvas);
 
         if (pizzas != null) {
-            for (Pizza pizza : this.pizzas){
+            for (Pizza pizza : new ArrayList<>(this.pizzas)){
                 pizza.draw(canvas);
             }
         }
         if(macrons != null){
-            for (Macron macron : this.macrons){
+            for (Macron macron : new ArrayList<>(this.macrons)){
                 macron.draw(canvas);
             }
         }
